@@ -1,0 +1,76 @@
+/friday-back/HELP.md
+/friday-back/target/
+/friday-back/!.mvn/wrapper/maven-wrapper.jar
+/friday-back/!**/src/main/**/target/
+/friday-back/!**/src/test/**/target/
+
+### STS ###
+/friday-back/.apt_generated
+/friday-back/.classpath
+/friday-back/.factorypath
+/friday-back/.project
+/friday-back/.settings
+/friday-back/.springBeans
+/friday-back/.sts4-cache
+
+### IntelliJ IDEA ###
+/**/.idea
+/friday-back/*.iws
+/friday-back/*.iml
+/friday-back/*.ipr
+/friday-front/.project
+/friday-front/.classpath
+/friday-front/.c9/
+/friday-front/*.launch
+/friday-front/.settings/
+/friday-front/*.sublime-workspace
+
+### NetBeans ###
+/friday-back/nbproject/private/
+/friday-back/nbbuild/
+/friday-back/dist/
+/friday-back/nbdist/
+/friday-back/.nb-gradle/
+/friday-back/build/
+/friday-back/!**/src/main/**/build/
+/friday-back/!**/src/test/**/build/
+
+### VS Code ###
+/friday-back/.vscode/
+
+
+# compiled output
+/friday-front/dist
+/friday-front/tmp
+/friday-front/out-tsc
+/friday-front/yarn.lock
+# Only exists if Bazel was run
+/friday-front/bazel-out
+
+# dependencies
+/friday-front/node_modules
+
+# profiling files
+/friday-front/chrome-profiler-events*.json
+
+# IDE - VSCode
+/friday-front/.vscode/*
+/friday-front/!.vscode/settings.json
+/friday-front/!.vscode/tasks.json
+/friday-front/!.vscode/launch.json
+/friday-front/!.vscode/extensions.json
+/friday-front/.history/*
+
+# misc
+/friday-front/.sass-cache
+/friday-front/connect.lock
+/friday-front/coverage
+/friday-front/libpeerconnection.log
+/friday-front/npm-debug.log
+/friday-front/yarn-error.log
+/friday-front/testem.log
+/friday-front/typings
+
+# System Files
+/friday-front/.DS_Store
+/friday-front/Thumbs.db
