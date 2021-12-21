@@ -1,0 +1,14 @@
+.custom-btn {
+	background-color: white;
+	border-color: #000;
+}
+button.custom-btn:focus{
+    background: gainsboro
+}
+button.custom-btn:active{
+    background: gainsboro
+}
+.list-group{
+    max-height: 80%;
+    overflow: scroll;
+}
