@@ -1,1 +1,71 @@
 /* You can add global styles to this file, and also import other style files */
+:root{
+    --main-bg-color : rgb(26, 8, 31);
+    --main-color1: #62A87C;
+    --main-color2: #7EE081;
+    --main-color3: #C3F3C0;
+    --main-color4: #235789;
+    --main-color5: #48BEFF;
+}
+
+html, body{
+    height: 100%;
+    background-color: var(--main-bg-color) !important;
+}
+
+.fc-toolbar{
+    margin-bottom:0 !important;
+}
+.fc-toolbar-chunk{
+    color:var(--main-color1);
+}
+th.fc-day{
+    background-color:var(--main-color4) !important;
+    box-shadow: inset 0 0 0.5em 0 rgb(35, 27, 37) !important;
+}
+td.fc-day{
+    background-color: var(--main-color5) !important;
+    box-shadow: inset 0 0 0.5em 0 rgb(35, 27, 37) !important;
+}
+
+.cardHeader,.cardFooter{
+    background-color:var(--main-color1) !important;
+    box-shadow: inset 0 0 0.5em 0 rgb(35, 27, 37) !important;
+}
+.cardBody{
+    box-shadow: inset 0 0 0.5em 0 rgb(35, 27, 37) !important;
+}
+
+.btn-neon-add,.fc-addGoogleCalendarBtn-button{
+    display: inline-block;
+    border: 0.2em solid rgb(60, 170, 45);
+    font-weight: bold;
+    color: rgb(60, 170, 45);
+    box-shadow: 0 0 0.5em 0 rgb(60, 170, 45);
+    text-shadow: 0 0 0.45 rgb(60, 170, 45);
+}
+
+.btn-neon-add:hover{
+    color: rgb(80, 214, 63);
+    border: 0.2em solid rgb(80, 214, 63);
+    box-shadow: 0 0 0.5em 0 rgb(60, 170, 45);
+    text-shadow: 0 0 0.45 rgb(80, 214, 63);
+}
+
+.btn-neon-add:focus{
+    display: inline-block;
+    border: 0.2em solid rgb(60, 170, 45);
+    font-weight: bold;
+    color: rgb(26, 8, 31);
+    box-shadow: 0 0 0.5em 0 rgb(60, 170, 45);
+    text-shadow: 0 0 0.45 rgb(60, 170, 45);
+    background-color: rgb(60, 170, 45);
+}
+
+.btn-neon{
+    display: inline-block;
+    border: 0.2em solid rgb(45, 155, 170) !important;
+    color: rgb(45, 155, 170) !important;
+    box-shadow: 0 0 0.5em 0 rgb(45, 155, 170);
+    text-shadow: 0 0 0.45 rgb(45, 155, 170);
+}
