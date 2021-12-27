@@ -1,11 +1,22 @@
-<div class="card h-100 mh-100">
-    <div class="card-header cardHeader">Featured</div>
+<div class="card h-100 mh-100" *ngIf="events != null; else elseBlock" >
+    <div class="card-header cardHeader">{{events.startDate}} to {{events.endDate}}</div>
     <div class="card-body cardBody">
-        <h5 class="card-title">Card title</h5>
+        <h5 class="card-title">{{events.name}}</h5>
         <p class="card-text">
-            Some quick example text to build on the card title and make up
-            the bulk of the card's content.
+            {{events.description}}
         </p>
     </div>
     <div class="card-footer cardFooter text-muted">2 days ago</div>
 </div>
+<ng-template #elseBlock >
+    <div class="card h-100 mh-100">
+        <div class="card-header cardHeader"></div>
+        <div class="card-body cardBody">
+            <h5 class="card-title">Title</h5>
+            <p class="card-text">
+                No Event For this date
+            </p>
+        </div>
+        <div class="card-footer cardFooter text-muted"></div>
+    </div>
+</ng-template>
