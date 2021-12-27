@@ -1,23 +1,6 @@
-<div class="col d-none d-md-block h-100 mh-100">
+<div class="col d-none d-md-block h-100 mh-100" *ngIf="events[0] != null; else elseBlock">
     <div class="list-group">
-        <a href="#" class="list-group-item list-group-item-action active" (click)="select('1')" id="1">A simple default</a>
-        <a href="#" class="list-group-item list-group-item-action" (click)="select('2')" id="2">A simple default</a>
-        <a href="#" class="list-group-item list-group-item-action" (click)="select('2')" id="2">A simple default</a>
-        <a href="#" class="list-group-item list-group-item-action" (click)="select('2')" id="2">A simple default</a>
-        <a href="#" class="list-group-item list-group-item-action" (click)="select('2')" id="2">A simple default</a>
-        <a href="#" class="list-group-item list-group-item-action" (click)="select('2')" id="2">A simple default</a>
-        <a href="#" class="list-group-item list-group-item-action" (click)="select('2')" id="2">A simple default</a>
-        <a href="#" class="list-group-item list-group-item-action" (click)="select('2')" id="2">A simple default</a>
-        <a href="#" class="list-group-item list-group-item-action" (click)="select('2')" id="2">A simple default</a>
-        <a href="#" class="list-group-item list-group-item-action" (click)="select('2')" id="2">A simple default</a>
-        <a href="#" class="list-group-item list-group-item-action" (click)="select('2')" id="2">A simple default</a>
-        <a href="#" class="list-group-item list-group-item-action" (click)="select('2')" id="2">A simple default</a>
-        <a href="#" class="list-group-item list-group-item-action" (click)="select('2')" id="2">A simple default</a>
-        <a href="#" class="list-group-item list-group-item-action" (click)="select('2')" id="2">A simple default</a>
-        <a href="#" class="list-group-item list-group-item-action" (click)="select('2')" id="2">A simple default</a>
-        <a href="#" class="list-group-item list-group-item-action" (click)="select('2')" id="2">A simple default</a>
-        <a href="#" class="list-group-item list-group-item-action" (click)="select('2')" id="2">A simple default</a>
-        <a href="#" class="list-group-item list-group-item-action" (click)="select('2')" id="2">A simple default</a>
+        <a *ngFor="let event of events; let i = index" href="#" class="list-group-item list-group-item-action" (click)="select(i)" id="{{i}}">{{ event.name }} at {{event.startDate }}</a>
     </div>
     <button type="button" class="btn btn-neon-add" data-bs-toggle="modal" data-bs-target="#exampleModal">
         add Rdv
@@ -29,8 +12,27 @@
         Dropdown link
     </a>
     <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-        <li><a class="dropdown-item" href="#">Action</a></li>
-        <li><a class="dropdown-item" href="#">Another action</a></li>
-        <li><a class="dropdown-item" href="#">Something else here</a></li>
+        <li><a class="dropdown-item" href="#"></a></li>
+        <li><a *ngFor="let event of events; let i = index" href="#" class="dropdown-item" (click)="select(i)" id="{{i}}">{{ event.name }}</a></li>  
     </ul>
 </div>
+<ng-template #elseBlock >
+    <div class="col d-none d-md-block h-100 mh-100">
+        <div class="list-group">
+            <a href="#" class="list-group-item list-group-item-action" id="0">Nothing Found</a>
+        </div>
+        <button type="button" class="btn btn-neon-add" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            add Rdv
+        </button>
+    </div>
+    <div class="dropdown col d-md-none">
+        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            Dropdown link
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            <li><a class="dropdown-item" href="#"></a></li>
+            <li><a class="list-group-item list-group-item-action">Nothing Found</a></li>  
+        </ul>
+    </div>
+</ng-template>
