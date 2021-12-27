@@ -1,11 +1,9 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import googleCalendarPlugin from '@fullcalendar/google-calendar';
-import { ApiCallService } from 'src/app/api-call.service';
-import { environment } from 'src/environments/environment';
-import { FullCalendarComponent, CalendarOptions } from '@fullcalendar/angular';
+import { ApiCallService, Events } from 'src/app/api-call.service';
+import { FullCalendarComponent, CalendarOptions} from '@fullcalendar/angular';
 
-declare var $:any;
+//declare var $:any;
 
 @Component({
   selector: 'app-calendrier',
@@ -13,22 +11,24 @@ declare var $:any;
   styleUrls: ['./calendrier.component.css']
 })
 export class CalendrierComponent implements OnInit {
-  constructor(private datepipe: DatePipe, private apiService : ApiCallService) { }
+  @Output() childToParent = new EventEmitter();
 
-  focus: any;
-  googleId: string='';
-  googleIdDel: string='';
-  googleCalendars : Array<{
-    googleCalendarId : string
-  }> = [];
-  
+  sendToParent(){this.childToParent.emit(this.Events);}
+
   @ViewChild('calendar')
   calendarComponent!: FullCalendarComponent;
 
+  constructor(private datepipe: DatePipe, private apiService : ApiCallService) {
+    this.loadAllEvents();
+    let today = this.datepipe.transform(Date.now(),"yyyy-MM-dd");
+    this.loadEventsByDate(today!.toString());
+   }
+
+  focus: any;
+  Events: Array<Events> = [];
+
   calendarOptions: CalendarOptions = {
-    plugins: [googleCalendarPlugin],
-    googleCalendarApiKey: environment.apiKey,
-    events: this.googleCalendars,
+    timeZone: 'UTC',
     initialView: 'customWeekGrid',
     views: {
       customWeekGrid: {
@@ -37,18 +37,6 @@ export class CalendrierComponent implements OnInit {
       }
     },
     customButtons :{
-      addGoogleCalendarBtn :{
-        text: "add Google Calendar",
-        click : ()=>{
-          this.showModalGoogleId();
-        }
-      },
-      delGoogleCalendarBtn :{
-        text: "remove Google Calendar",
-        click : ()=>{
-          this.showModalGoogleIdDel();
-        }
-      }
     },
     locale: 'fr',
     headerToolbar: {
@@ -57,12 +45,13 @@ export class CalendrierComponent implements OnInit {
       end: 'today'
     },
     footerToolbar: {
-      start: 'addGoogleCalendarBtn delGoogleCalendarBtn',
+      start: '',
       center: '',
       end: 'prev,next'
     },
     eventClick: function (info) {
       info.jsEvent.preventDefault();
+      console.log(info);
     },
     dateClick: (info) => {
       this.dateCallback(info)
@@ -73,63 +62,33 @@ export class CalendrierComponent implements OnInit {
   }
 
   dateCallback(info: any) {
-    this.testingefef();
+    this.loadEventsByDate(info.dateStr);
   }
 
-  testingefef(){
-    this.apiService.getConfig().subscribe(data =>{
-      console.log(data);
-    });
-  }
-
-  addGoogleCalendar(id : string){
-    var isInside= false;
-    this.googleCalendars.forEach(x =>{
-      if(x.googleCalendarId === id){
-        isInside = true;
-        return;
-      }
-    });
-    if(isInside){
-      return;
+  loadAllEvents(){
+    this.apiService.getAllEvents().subscribe(response =>{
+      if(response.status == 200){
+      response.body!.map(d => {
+        this.calendarComponent.getApi().addEvent({
+          id:d.id,
+          title:d.name,
+          start:d.startDate,
+          end:d.endDate
+        });
+      });
     }
-    this.googleCalendars.push({googleCalendarId:id});
-    this.calendarComponent.getApi().addEventSource({googleCalendarId:id});
+    });
   }
 
-  showModalGoogleId(){
-    $('#ModalGoogleId').modal('show');
-  }
-
-  hideModalGoogleId(){
-    $('#ModalGoogleId').modal('hide');
-  }
-
-  showModalGoogleIdDel(){
-    $('#ModalGoogleIdDel').modal('show');
-  }
-
-  hideModalGoogleIdDel(){
-    $('#ModalGoogleIdDel').modal('hide');
-  }
-
-  onSubmitGoogleId(){
-    this.addGoogleCalendar(this.googleId);
-    $('#ModalGoogleId').modal('hide');
-  }
-
-  onSubmitGoogleIdDel(){
-    this.calendarComponent.getApi().removeAllEventSources();
-    var newArr = new Array;
-    this.googleCalendars.forEach(x =>{
-      if(!(x.googleCalendarId === this.googleIdDel)){
-        newArr.push(x);
-        this.calendarComponent.getApi().addEventSource(x);
+  loadEventsByDate(date:string){
+    this.apiService.getEventsByDate(date).subscribe(response =>{
+      if(response.status == 200){
+        this.Events = response.body!;
+        this.sendToParent();
       }
     });
-    this.googleCalendars = newArr;
-    $('#ModalGoogleIdDel').modal('hide');
   }
+
 
   ngOnInit(): void {
   }
