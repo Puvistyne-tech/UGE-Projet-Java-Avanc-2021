@@ -1,5 +1,6 @@
-package com.friday.fridayback.event;
+package com.friday.fridayback.repository;
 
+import com.friday.fridayback.entity.Event;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

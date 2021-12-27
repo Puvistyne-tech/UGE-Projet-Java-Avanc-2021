@@ -1,5 +1,7 @@
 package com.friday.fridayback.event;
 
+import com.friday.fridayback.entity.Event;
+import com.friday.fridayback.repository.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,20 +39,12 @@ public class EventService {
         else throw new IllegalArgumentException("Event does not exist");
     }
 
-    public void setEvent(EventCreator event) {
-        Optional<Event> eventOptional = evenRepository.findByName(event.name());
+    public void setEvent(Event event) {
+        Optional<Event> eventOptional = evenRepository.findByName(event.getName());
         if (eventOptional.isPresent()) {
             throw new IllegalStateException("Event already exists");
         }
-        evenRepository.save(new Event(
-                event.name(),
-                event.description(),
-                event.location(),
-                event.startDate(),
-                event.endDate(),
-                event.startTime(),
-                event.endTime()
-        ));
+        evenRepository.save(event);
     }
 
     @Transactional

@@ -1,20 +1,17 @@
-package com.friday.fridayback.event;
+package com.friday.fridayback.entity;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.friday.fridayback.event.repetition.Repetition;
-import com.friday.fridayback.user.User;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.sql.Time;
 import java.util.Date;
+import java.util.Objects;
 
 @Entity
 @Table
 public class Event {
-
-//    @ManyToOne(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "user_id")
-//    private User user;
 
     @Id
     @SequenceGenerator(
@@ -34,7 +31,7 @@ public class Event {
 //    @JoinColumn(name = "")
 //    private Repetition rule;
 
-    @Column(name = "name", unique = true, nullable = false)
+    @Column(name = "name", nullable = false)
     private String name;
 
     @Column(name = "description")
@@ -61,37 +58,24 @@ public class Event {
 
     //    TODO
 //    repetitions
-
-
-    public Event() {
-    }
-
+/*
     //TODO need to find a method to link a user to his event
     public Event(String name, String description, String location, Date startDate, Date endDate, Time startTime, Time endTime) {
-        this.name = name;
-        this.description = description;
-        this.location = location;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.startTime = startTime;
-        this.endTime = endTime;
-    }
-
-
-//    public User getUser() {
-//        return user;
-//    }
-//
-//    public void setUser(User user) {
-//        this.user = user;
-//    }
+        this.name = Objects.requireNonNull(name);
+        this.description = Objects.requireNonNull(description);
+        this.location = Objects.requireNonNull(location);
+        this.startDate = Objects.requireNonNull(startDate);
+        this.endDate = Objects.requireNonNull(endDate);
+        this.startTime = Objects.requireNonNull(startTime);
+        this.endTime = Objects.requireNonNull(endTime);
+    }*/
 
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name = Objects.requireNonNull(name);
     }
 
     public Time getEndTime() {
@@ -99,7 +83,7 @@ public class Event {
     }
 
     public void setEndTime(Time endTime) {
-        this.endTime = endTime;
+        this.endTime = Objects.requireNonNull(endTime);
     }
 
     public Time getStartTime() {
@@ -107,7 +91,7 @@ public class Event {
     }
 
     public void setStartTime(Time startTime) {
-        this.startTime = startTime;
+        this.startTime = Objects.requireNonNull(startTime);
     }
 
     public String getLocation() {
@@ -115,7 +99,7 @@ public class Event {
     }
 
     public void setLocation(String location) {
-        this.location = location;
+        this.location = Objects.requireNonNull(location);
     }
 
     public String getDescription() {
@@ -123,7 +107,7 @@ public class Event {
     }
 
     public void setDescription(String description) {
-        this.description = description;
+        this.description = Objects.requireNonNull(description);
     }
 
     public Date getEndDate() {
@@ -131,7 +115,7 @@ public class Event {
     }
 
     public void setEndDate(Date endDate) {
-        this.endDate = endDate;
+        this.endDate = Objects.requireNonNull(endDate);
     }
 
     public Date getStartDate() {
@@ -139,7 +123,7 @@ public class Event {
     }
 
     public void setStartDate(Date startDate) {
-        this.startDate = startDate;
+        this.startDate = Objects.requireNonNull(startDate);
     }
 
     public Long getId() {
