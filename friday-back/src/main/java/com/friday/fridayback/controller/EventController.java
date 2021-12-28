@@ -8,7 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,37 +27,41 @@ public class EventController {
     public ResponseEntity<List<Event>> getAllEvents() {
         try{
             List<Event> list = eventRepository.findAll();
-            if(list.isEmpty() || list.size()==0){
+            if(list.isEmpty()){
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
             return new ResponseEntity<>(list,HttpStatus.OK);
         }catch(Exception e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-/*        return ResponseHandler.generateResponse(
-                "All Events",
-                HttpStatus.OK,
-                eventService.getAllEvent()
-        );*/
     }
 
-    @GetMapping(path = "/{date}")
+    @GetMapping("/event/{id}")
     @ResponseBody
-    public ResponseEntity<Object> getEventByDate(@PathVariable("date") @DateTimeFormat(pattern = "ddMMyyyy") Date date) {
+    public ResponseEntity<Event> getEventById(@PathVariable("id") long id) {
         try{
-            List<Event> list = eventRepository.findEventByDate(date);
-            if(list.isEmpty() || list.size()==0){
+            Optional<Event> list = eventRepository.findById(id);
+            if(list.isEmpty()){
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            }
+            return new ResponseEntity<>(list.get(),HttpStatus.OK);
+        }catch(Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping(path = "/findByDate")
+    @ResponseBody
+    public ResponseEntity<Object> getEventByDate(@RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+        try{
+            List<Event> list = eventRepository.findEventByStartDate(date.atStartOfDay(),date.plusDays(1).atStartOfDay());
+            if(list.isEmpty()){
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
             return new ResponseEntity<>(list,HttpStatus.OK);
         }catch(Exception e){
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-/*        return ResponseHandler.generateResponse(
-                "Event on " + date.toString(),
-                HttpStatus.OK,
-                eventService.getEventByDate(date)
-        );*/
     }
 
     @PostMapping("/event")
@@ -68,12 +72,6 @@ public class EventController {
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        /*        eventService.setEvent(event);
-        return ResponseHandler.generateResponse(
-                "Event created successfully",
-                HttpStatus.OK,
-                eventService.getEventByName(event.name())
-        );*/
     }
 
     @PutMapping("/event")
@@ -83,31 +81,16 @@ public class EventController {
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-/*        eventService.updateEvent(event);
-        return ResponseHandler.generateResponse(
-                "Event " + event.getName() + " is successfully updated",
-                HttpStatus.OK,
-                eventService.getEventById(event.getId())
-        );*/
     }
 
     @DeleteMapping(path = "/{eventId}")
     public ResponseEntity<Event> deleteEventById(@PathVariable Long eventId) {
         try {
             Optional<Event> customer = eventRepository.findById(eventId);
-            if (customer.isPresent()) {
-                eventRepository.delete(customer.get());
-            }
+            customer.ifPresent(eventRepository::delete);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-/*        var tmp = eventService.getEventById(eventId);
-        eventService.deleteEventById(eventId);
-        return ResponseHandler.generateResponse(
-                "Event " + tmp.getName() + " deleted successfully",
-                HttpStatus.OK,
-                ""
-        );*/
     }
 }
