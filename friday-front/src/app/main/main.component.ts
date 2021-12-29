@@ -13,7 +13,7 @@ export class MainComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  Events: Array<Events> = [];
+  events: Array<Events> = [];
 
-  childToParent($event:any) {this.Events = $event; console.log(this.Events)}
+  childToParent($event:any) {this.events = $event}
 }
