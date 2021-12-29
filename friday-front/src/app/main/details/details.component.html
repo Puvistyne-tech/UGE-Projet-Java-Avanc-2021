@@ -1,8 +1,8 @@
 <div class="row rowRdv mb-1">
     <div class="col-md-4 col-12 mh-100">
-        <app-list-rdv></app-list-rdv>
+        <app-list-rdv [events]="eventsFromMain" (clickForDetails)="clickForDetails($event)"></app-list-rdv>
     </div>
     <div class="col-md-8 mh-100">
-        <app-fiche-rdv></app-fiche-rdv>
+        <app-fiche-rdv [events]="event" ></app-fiche-rdv>
     </div>
 </div>

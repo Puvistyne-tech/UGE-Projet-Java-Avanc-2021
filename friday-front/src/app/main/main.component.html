@@ -1,2 +1,2 @@
-  <app-details></app-details>
-  <app-calendrier></app-calendrier>
+  <app-details [eventsFromMain]="events" [event]="events[0]"></app-details>
+  <app-calendrier (childToParent)="childToParent($event)"></app-calendrier>

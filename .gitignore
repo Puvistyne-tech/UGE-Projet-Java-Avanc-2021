@@ -74,3 +74,6 @@
 # System Files
 /friday-front/.DS_Store
 /friday-front/Thumbs.db
+/friday-back/src/main/resources/data/friday.lock.db
+/friday-back/src/main/resources/data/friday.mv.db
+/friday-front/package-lock.json

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Events } from 'src/app/api-call.service';
 
 @Component({
   selector: 'app-main',
@@ -12,4 +13,7 @@ export class MainComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  events: Array<Events> = [];
+
+  childToParent($event:any) {this.events = $event}
 }
