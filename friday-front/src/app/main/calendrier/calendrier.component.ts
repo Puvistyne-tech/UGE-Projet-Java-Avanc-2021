@@ -2,6 +2,7 @@ import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/cor
 import { DatePipe } from '@angular/common';
 import { ApiCallService, Events } from 'src/app/api-call.service';
 import { FullCalendarComponent, CalendarOptions} from '@fullcalendar/angular';
+import { Subscription } from 'rxjs';
 
 //declare var $:any;
 
@@ -20,16 +21,27 @@ export class CalendrierComponent implements OnInit {
 
   constructor(private datepipe: DatePipe, private apiService : ApiCallService) {
     this.loadAllEvents();
-    let today = this.datepipe.transform(Date.now(),"yyyy-MM-dd");
-    this.loadEventsByDate(today!.toString());
-   }
+    this.dateClick = this.datepipe.transform(Date.now(),"yyyy-MM-dd")!.toString();
+    this.loadEventsByDate();
+    this.clickEventsubscription=this.apiService.reloadEvent().subscribe(()=>{
+      this.loadAllEvents();
+      this.loadEventsByDate();
+    });
+  }
 
+  ngOnInit(): void {
+  }
+
+  clickEventsubscription:Subscription;
   focus: any;
   Events: Array<Events> = [];
+  EventsCalendar: Array<Events> = [];
+  dateClick:string ="";
 
   calendarOptions: CalendarOptions = {
     timeZone: 'UTC',
     initialView: 'customWeekGrid',
+    events: this.EventsCalendar,
     views: {
       customWeekGrid: {
         type: 'dayGridWeek',
@@ -62,35 +74,33 @@ export class CalendrierComponent implements OnInit {
   }
 
   dateCallback(info: any) {
-    this.loadEventsByDate(info.dateStr);
+    this.dateClick = info.dateStr;
+    this.loadEventsByDate();
   }
 
   loadAllEvents(){
     this.apiService.getAllEvents().subscribe(response =>{
       if(response.status == 200){
+      this.EventsCalendar = [];
       response.body!.map(d => {
-        this.calendarComponent.getApi().addEvent({
-          id:d.id,
-          title:d.name,
-          start:d.startDate,
-          end:d.endDate
-        });
+        this.EventsCalendar.push(d);
       });
+    }else if(response.status ==204){
+      this.EventsCalendar =[];
     }
+    this.calendarOptions.events = this.EventsCalendar;
     });
   }
 
-  loadEventsByDate(date:string){
-    this.apiService.getEventsByDate(date).subscribe(response =>{
+  loadEventsByDate(){
+    this.apiService.getEventsByDate(this.dateClick).subscribe(response =>{
       if(response.status == 200){
         this.Events = response.body!;
+        this.sendToParent();
+      }else if(response.status == 204){
+        this.Events = [];
         this.sendToParent();
       }
     });
   }
-
-
-  ngOnInit(): void {
-  }
-
 }
