@@ -1,12 +1,20 @@
 <div class="card h-100 mh-100" *ngIf="events != null; else elseBlock" >
-    <div class="card-header cardHeader">{{events.startDate}} to {{events.endDate}}</div>
+    <div *ngIf="!events.allDay;else elseTitle" class="card-header cardHeader">{{events.start}} to {{events.end}}</div>
+    <ng-template #elseTitle > <div class="card-header cardHeader">All Day</div> </ng-template>
     <div class="card-body cardBody">
-        <h5 class="card-title">{{events.name}}</h5>
+        <h5 class="card-title">{{events.title}}</h5>
         <p class="card-text">
             {{events.description}}
         </p>
     </div>
-    <div class="card-footer cardFooter text-muted">2 days ago</div>
+    <div class="card-footer cardFooter text-muted">
+        <button type="button" class="btn btn-danger" (click)="delete()">
+            del Event
+        </button>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#updateEventModal">
+            update Rdv
+        </button>
+    </div>
 </div>
 <ng-template #elseBlock >
     <div class="card h-100 mh-100">
@@ -20,3 +28,55 @@
         <div class="card-footer cardFooter text-muted"></div>
     </div>
 </ng-template>
+
+<!-- Modal -->
+<div *ngIf="events != null">
+    <div class="modal" id="updateEventModal" tabindex="-1" role="dialog" aria-labelledby="updateEventModal" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Ajouter un événement</h5>
+              <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="form" (ngSubmit)="onSubmitUpdate()">
+                    <div *ngIf="title.invalid"> Titre trop court. </div>
+                    <div *ngIf="!dateValid"> Date non valide.</div>
+                    <div class="form-group">
+                        <label for="titleTextInput">Titre de l'event</label>
+                        <input type="text" class="form-control" id="titleTextInput" formControlName="title" >
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleFormControlTextarea1">Description</label>
+                        <textarea formControlName="description" class="form-control" id="descTextArea" rows="3"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="lieuTextInput">Lieu</label>
+                        <input type="text" class="form-control" id="lieuTextInput" formControlName="location" >
+                    </div>
+                    <div class="form-check">
+                        <input formControlName="allDay" class="form-check-input" type="checkbox" id="allDayCheck" >
+                        <label class="form-check-label" for="allDayCheck">
+                          All Day?
+                        </label>
+                    </div>
+                    <div>
+                        <label for="start">Début le:</label>
+                        <input type="datetime-local" id="startDate" name="startDate" formControlName="start">
+                    </div>
+                    <div>
+                        <label for="endDate">Fin le:</label>
+                        <input type="datetime-local" id="endDate" name="endDate" formControlName="end">
+                    </div>
+                    <button type="submit">Submit Event</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+</div>
