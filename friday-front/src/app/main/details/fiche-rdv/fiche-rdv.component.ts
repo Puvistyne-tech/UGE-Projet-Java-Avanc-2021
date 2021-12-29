@@ -61,7 +61,7 @@ export class FicheRdvComponent implements OnInit {
     this.dateValid = this.validate(evt);
     console.log(evt);
     if(this.dateValid){
-      this.apiService.postEvent(evt).subscribe(date => {
+      this.apiService.putEvent(evt).subscribe(date => {
         console.log(date);
         this.apiService.sendClickEvent();
       })
