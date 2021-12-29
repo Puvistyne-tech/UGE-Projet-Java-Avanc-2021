@@ -8,10 +8,15 @@ import { Events } from 'src/app/api-call.service';
 })
 export class DetailsComponent implements OnInit {
   @Input() eventsFromMain : Array<Events> = [];
- 
+  @Input()
+  event!: Events;
+
+
   constructor() { }
 
   ngOnInit(): void {
   }
+
+  clickForDetails($event:any) {this.event = $event;console.log($event)}
 
 }
