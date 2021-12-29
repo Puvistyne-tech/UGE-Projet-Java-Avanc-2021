@@ -14,12 +14,12 @@ import java.util.Optional;
 public interface EventRepository
         extends JpaRepository<Event, Long> {
 
-    @Query("select d from Event d where d.startDate >= ?1 and d.startDate < ?2")
+    @Query("select d from Event d where d.start >= ?1 and d.start < ?2")
     List<Event> findEventByStartDate(LocalDateTime startDate, LocalDateTime endDate);
 
 //    List<Event> findEventsByStartDateIsGreaterThanEqualAndAndEndDateLessThanEqual(Date date);
 
-    Optional<Event> findByName(String name);
+    Optional<Event> findByTitle(String title);
 
 //    public List<Event> findAllByEndDateOrStartDate(Date date);
 

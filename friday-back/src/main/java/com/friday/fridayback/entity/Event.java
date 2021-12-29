@@ -21,8 +21,8 @@ public class Event {
     @Column(name = "id")
     private long id;
 
-    @Column(name = "name", nullable = false)
-    private String name;
+    @Column(name = "title", nullable = false)
+    private String title;
 
     @Column(name = "description")
     private String description;
@@ -30,11 +30,14 @@ public class Event {
     @Column(name = "location")
     private String location;
 
-    @Column(name = "startDate", nullable = false)
-    private LocalDateTime startDate;
+    @Column(name = "start", nullable = false)
+    private LocalDateTime start;
 
-    @Column(name = "endDate", nullable = false)
-    private LocalDateTime endDate;
+    @Column(name = "end", nullable = false)
+    private LocalDateTime end;
+
+    @Column(name = "allDay")
+    private boolean allDay;
 
 
 /*
@@ -46,12 +49,12 @@ public class Event {
         this.endDate = Objects.requireNonNull(endDate);
     }*/
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = Objects.requireNonNull(name);
+    public void setTitle(String title) {
+        this.title = Objects.requireNonNull(title);
     }
 
     public String getLocation() {
@@ -70,20 +73,20 @@ public class Event {
         this.description = Objects.requireNonNull(description);
     }
 
-    public LocalDateTime getEndDate() {
-        return endDate;
+    public LocalDateTime getEnd() {
+        return end;
     }
 
-    public void setEndDate(LocalDateTime endDate) {
-        this.endDate = Objects.requireNonNull(endDate);
+    public void setEnd(LocalDateTime endDate) {
+        this.end = Objects.requireNonNull(endDate);
     }
 
-    public LocalDateTime getStartDate() {
-        return startDate;
+    public LocalDateTime getStart() {
+        return start;
     }
 
-    public void setStartDate(LocalDateTime startDate) {
-        this.startDate = Objects.requireNonNull(startDate);
+    public void setStart(LocalDateTime startDate) {
+        this.start = Objects.requireNonNull(startDate);
     }
 
     public Long getId() {
@@ -92,5 +95,13 @@ public class Event {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public boolean getAllDay() {
+        return allDay;
+    }
+
+    public void setAllDay(boolean allDay) {
+        this.allDay = allDay;
     }
 }
