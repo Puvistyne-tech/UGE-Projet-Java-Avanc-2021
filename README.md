@@ -14,6 +14,8 @@ Crud ok
 Ics ok
 Google pas ok
 
+Il y as un bug lors du compile en un coup. Il faut les faire de façon séparer...
+
 
 ### Base de données :
 
