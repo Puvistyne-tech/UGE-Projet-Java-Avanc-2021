@@ -66,8 +66,9 @@ export class ListRdvComponent implements OnInit {
     this.dateValid = this.validate(evt);
     if(this.dateValid){
       this.apiService.postEvent(evt).subscribe(reponse => {
-        if(reponse.status == 200){
+        if(reponse.status == 201){
           this.apiService.sendClickEvent();
+          this.hideModal();
         }
       })
     }
