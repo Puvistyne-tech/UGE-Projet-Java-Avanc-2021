@@ -14,7 +14,7 @@ Crud ok
 Ics ok
 Google pas ok
 
-Il y as un bug lors du compile en un coup. Il faut les faire de façon séparer...
+Il y as un bug lors du compile en un coup le problème est du a @npmcli ce qu'on ne comprends pas du tout car ça fonctionné avec de changer le readme... Il faut les faire de façon séparer...
 
 
 ### Base de données :
