@@ -4,88 +4,98 @@
 
 ## ICalender
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+## friday back: Spring, JPA, H2 Database
 
-## Add your files
+### Fonctionnalités :
 
-- [ ] [Create](https://gitlab.com/-/experiment/new_project_readme_content:5efb573c73629fb21e4c54620e732654?https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://gitlab.com/-/experiment/new_project_readme_content:5efb573c73629fb21e4c54620e732654?https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://gitlab.com/-/experiment/new_project_readme_content:5efb573c73629fb21e4c54620e732654?https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
 
-```
-cd existing_repo
-git remote add origin https://gitlab.com/uge-projet-java-avance-m1/escriva-rajasegar.git
-git branch -M main
-git push -uf origin main
-```
+Crud ok
+Ics ok
+Google pas ok
 
-## Integrate with your tools
 
-- [ ] [Set up project integrations](https://gitlab.com/-/experiment/new_project_readme_content:5efb573c73629fb21e4c54620e732654?https://docs.gitlab.com/ee/user/project/integrations/)
+### Base de données :
 
-## Collaborate with your team
 
-- [ ] [Invite team members and collaborators](https://gitlab.com/-/experiment/new_project_readme_content:5efb573c73629fb21e4c54620e732654?https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://gitlab.com/-/experiment/new_project_readme_content:5efb573c73629fb21e4c54620e732654?https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://gitlab.com/-/experiment/new_project_readme_content:5efb573c73629fb21e4c54620e732654?https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Automatically merge when pipeline succeeds](https://gitlab.com/-/experiment/new_project_readme_content:5efb573c73629fb21e4c54620e732654?https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+Nous stockons dans la base de données des événements qui comprennent :
+Id de type long
+Title de type string
+Description de type string
+Location de type string
+Start de type LocalDateTime
+End de type LocalDateTime
 
-## Test and Deploy
+La BDD est reinitialisé à chaque redemarrage du serveur.
 
-Use the built-in continuous integration in GitLab.
+Pour créer une table avec h2 database et spring jpa il faut une annotation @entity avant la Déclaration de la classe, dans cette classe il faudra aussi les getters et setters pour chaque variable, lors de la sauvegarde d'un événement la création se fait avec le constructeur par défaut puis utilise tout les setters. 
 
-- [ ] [Get started with GitLab CI/CD](https://gitlab.com/-/experiment/new_project_readme_content:5efb573c73629fb21e4c54620e732654?https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://gitlab.com/-/experiment/new_project_readme_content:5efb573c73629fb21e4c54620e732654?https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://gitlab.com/-/experiment/new_project_readme_content:5efb573c73629fb21e4c54620e732654?https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://gitlab.com/-/experiment/new_project_readme_content:5efb573c73629fb21e4c54620e732654?https://docs.gitlab.com/ee/user/clusters/agent/)
 
-***
+### EventRepository:
 
-# Editing this README
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!).  Thank you to [makeareadme.com](https://gitlab.com/-/experiment/new_project_readme_content:5efb573c73629fb21e4c54620e732654?https://www.makeareadme.com/) for this template.
+Les requêtes sql ou les méthodes pour trouver un élément se fait a partir de l'interface eventRepository implementant JpaRepository, on va pouvoir définir les requêtes que l'on souhaite avoir. Dans cette interface il peut y avoir plusieurs méthode. 
 
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
 
-## Name
-Choose a self-explaining name for your project.
+### EventController:
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+C'est la classe qui va definie les méthodes de l'api ainsi que leurs routes pour y accéder. 
+Les methodes CRUD sont presente dans cette classe. Les méthodes sont toutes routés a partir de /events.
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+- public ResponseEntity<List<Event>> getAllEvents(), GET /event:
+Il est possible d'obtenir tout les événements avec cette méthode sous la forme d'une List d'event.
+retourne un HttpStatus.NO_CONTENT si aucun event dans la bdd,
+retourne un HttpStatus.OK si des events sont présent.
+retourne un HttpStatus.INTERNAL_SERVER_ERROR en cas d'erreur lors d'une des fonctions.
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+- public ResponseEntity<Event> getEventById(@PathVariable("id") long id), GET /event/{id}:
+Il est possible d'obtenir un event grâce à son id, la présence de l'event n'étant pas obligatoire on utilise un optionnal et retourne un httpstatut.no_content si absent ou httpstatut.ok avec en body l'événement si présent. 
+retourne un HttpStatus.NO_CONTENT si l'event n'est pas dans la bdd,
+retourne un HttpStatus.OK si des events est présent.
+retourne un HttpStatus.INTERNAL_SERVER_ERROR en cas d'erreur lors d'une des fonctions.
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+- public ResponseEntity<Event> deleteEventById(@PathVariable Long eventId), DELETE /{eventId}:
+Il est possible de supprimer un event grâce à son id.
+retourne un HttpStatus.OK que l'event soit supprimer ou si l'event n'était pas présent.
+retourne un HttpStatus.INTERNAL_SERVER_ERROR en cas d'erreur lors d'une des fonctions.
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+- public ResponseEntity<Event> updateEvent(@RequestBody Event event), PUT /event:
+Il est possible d'update un event à l'aide de son id.
+retourne un HttpStatus.OK si l'event est modifié.
+retourne un HttpStatus.INTERNAL_SERVER_ERROR en cas d'erreur lors d'une des fonctions.
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+- public ResponseEntity<List<Event>> getEventByDate(@RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date), GET /findByDate:
+Il est possible d'obtenir tout les events commencant a une certaine date.
+retourne un HttpStatus.NO_CONTENT si aucun event dans la bdd,
+retourne un HttpStatus.OK si des events sont présent.
+retourne un HttpStatus.INTERNAL_SERVER_ERROR en cas d'erreur lors d'une des fonctions.
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+- public ResponseEntity<Event> setEvent(@RequestBody Event event), POST /event:
+Il est possible de sauvegarder un event dans la base de donnée.
+retourne un HttpStatus.OK si l'event est enregitré dans la bdd.
+retourne un HttpStatus.INTERNAL_SERVER_ERROR en cas d'erreur lors d'une des fonctions.
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+### ICalController:
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
 
-## License
-For open source projects, say how it is licensed.
+Nous avons décidé pour l'upload d'un icalendar par file ou url que si un des event est mal formater alors il ne doit pas perturbé l'ajout des autres event.
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+Pour gérer le parsing d'un fichier icalendar on utilise biweekly.
+La méthode gérant l'upload d'un icalendar par fichier prend en paramètres un multipartfile, alors que celle utilisant l'url prend un string. Les opérations pour parser un ical et ajouté un event sont commune entre les deux fonctions
+
+
+## Friday-Front: Angular
+
+
+Toutes les fonctionnalités indiquer comme implémenté fonctionne sur le front, Nous avons essayé d'utiliser toute les fonctionnalités disponible d'angular pour le data binding. L'affichage du calendrier se fait grâce FullCalendar et on as decider de n'afficher qu'une semaine par une semaine car c'est plus jolie comme ça.
+
+
+## Conclusion
+
+
+La difficulté principale de ce projet fut de commencer à utiliser chaques technologies, et aussi de les connecters ensemble.
+La communication pour travailler sur le projet fut quelque peu difficile.
+Nous avons essayé d'utiliser google api mais nous avons seulement reussi à la faire avec fullcalendar au lieu de passer par le back donc nous l'avons supprimer.
 
