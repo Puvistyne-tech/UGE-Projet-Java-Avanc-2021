@@ -2,6 +2,8 @@ import { Component, Input, OnInit , Output, EventEmitter} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import { ApiCallService,Events } from 'src/app/api-call.service';
 
+declare var $:any;
+
 @Component({
   selector: 'app-list-rdv',
   templateUrl: './list-rdv.component.html',
@@ -14,7 +16,7 @@ export class ListRdvComponent implements OnInit {
   @Output() clickForDetails = new EventEmitter();
 
   sendToParent(evt:Events){
-    
+
     this.clickForDetails.emit(evt);
   }
 
@@ -71,4 +73,11 @@ export class ListRdvComponent implements OnInit {
     }
   }
 
+  showModal(){
+    $("#createEventModal").modal("show");
+  }
+
+  hideModal(){
+    $("#createEventModal").modal("hide");
+  }
 }

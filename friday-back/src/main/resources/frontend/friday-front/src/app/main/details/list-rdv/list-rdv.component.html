@@ -6,7 +6,7 @@
                 <ng-template #elseTitle > <a href="#" class="list-group-item list-group-item-action" (click)="select(i)" id="{{i}}">{{ event.title }} all Day</a> </ng-template>
             </div>
         </div>
-        <button type="button" class="btn btn-neon-add" data-bs-toggle="modal" data-bs-target="#createEventModal">
+        <button type="button" class="btn btn-neon-add" (click)="showModal()" data-bs-toggle="modal" data-bs-target="#createEventModal">
             add Rdv
         </button>
     </div>
@@ -17,9 +17,9 @@
         </a>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
             <li><a class="dropdown-item" href="#"></a></li>
-            <li><a *ngFor="let event of events; let i = index" href="#" class="dropdown-item" (click)="select(i)" id="{{i}}">{{ event.title }}</a></li>  
+            <li><a *ngFor="let event of events; let i = index" href="#" class="dropdown-item" (click)="select(i)" id="{{i}}">{{ event.title }}</a></li>
         </ul>
-        <button type="button" class="btn btn-neon-add" data-bs-toggle="modal" data-bs-target="#createEventModal">
+        <button type="button" class="btn btn-neon-add" (click)="showModal()" data-bs-toggle="modal" data-bs-target="#createEventModal">
             add Rdv
         </button>
     </div>
@@ -29,7 +29,7 @@
         <div class="list-group">
             <a href="#" class="list-group-item list-group-item-action" id="0">Nothing Found</a>
         </div>
-        <button type="button" class="btn btn-neon-add" data-bs-toggle="modal" data-bs-target="#createEventModal">
+        <button type="button" class="btn btn-neon-add" (click)="showModal()" data-bs-toggle="modal" data-bs-target="#createEventModal">
             add Rdv
         </button>
     </div>
@@ -40,9 +40,9 @@
         </a>
         <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
             <li><a class="dropdown-item" href="#"></a></li>
-            <li><a class="list-group-item list-group-item-action">Nothing Found</a></li>  
+            <li><a class="list-group-item list-group-item-action">Nothing Found</a></li>
         </ul>
-        <button type="button" class="btn btn-neon-add" data-bs-toggle="modal" data-bs-target="#createEventModal">
+        <button type="button" class="btn btn-neon-add" (click)="showModal()" data-bs-toggle="modal" data-bs-target="#createEventModal">
             add Rdv
         </button>
     </div>
@@ -54,7 +54,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">Ajouter un événement</h5>
-          <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+          <button type="button" class="close" (click)="hideModal()" data-bs-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
