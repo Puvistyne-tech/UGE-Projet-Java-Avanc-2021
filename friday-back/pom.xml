@@ -129,7 +129,7 @@
                 <artifactId>maven-resources-plugin</artifactId>
                 <executions>
                     <execution>
-                        <id>Copy my VueJS app into my Spring Boot target static folder</id>
+                        <id>Copy my Angular app into my Spring Boot target static folder</id>
                         <phase>process-resources</phase>
                         <goals>
                             <goal>copy-resources</goal>
