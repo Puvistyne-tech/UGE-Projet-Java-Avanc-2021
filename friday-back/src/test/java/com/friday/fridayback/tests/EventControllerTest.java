@@ -21,15 +21,18 @@ public class EventControllerTest {
 
     @Test
     public void goodSizeBodyListGetAllTest() {
+        eventRepository.deleteAll();
         EventController ec = new EventController(eventRepository);
-        Event toAdd = new Event();
-        toAdd.setTitle("title");
-        toAdd.setDescription("desc");
-        toAdd.setLocation("location");
-        toAdd.setStart(LocalDateTime.now());
-        toAdd.setEnd(LocalDateTime.now());
-        eventRepository.save(toAdd);
-        Assertions.assertEquals(1, ec.getAllEvents().getBody().size());
+        for (var i =0; i < 50;i++){
+            Event toAdd = new Event();
+            toAdd.setTitle("title"+i);
+            toAdd.setDescription("desc");
+            toAdd.setLocation("location");
+            toAdd.setStart(LocalDateTime.now());
+            toAdd.setEnd(LocalDateTime.now());
+            eventRepository.save(toAdd);
+        }
+        Assertions.assertEquals(50, ec.getAllEvents().getBody().size());
     }
 
     @Test
@@ -43,13 +46,20 @@ public class EventControllerTest {
         toAdd.setStart(LocalDateTime.now());
         toAdd.setEnd(LocalDateTime.now());
         eventRepository.save(toAdd);
-        Assertions.assertEquals(toAdd.getTitle(), ec.getEventById(2).getBody().getTitle());
+        Assertions.assertEquals(toAdd.getTitle(), ec.getEventById(52).getBody().getTitle());
     }
 
     @Test
-    public void failOnWrongUrlTest() {
+    public void NoContentOnWrongIdTest() {
         eventRepository.deleteAll();
         EventController ec = new EventController(eventRepository);
-        Assertions.assertEquals(HttpStatus.NO_CONTENT,ec.getEventById(2).getStatusCode());
+        Event toAdd = new Event();
+        toAdd.setTitle("goodEventByIdTest");
+        toAdd.setDescription("desc");
+        toAdd.setLocation("location");
+        toAdd.setStart(LocalDateTime.now());
+        toAdd.setEnd(LocalDateTime.now());
+        eventRepository.save(toAdd);
+        Assertions.assertEquals(HttpStatus.NO_CONTENT,ec.getEventById(999).getStatusCode());
     }
 }
