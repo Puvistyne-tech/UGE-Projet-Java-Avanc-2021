@@ -1,0 +1,99 @@
+<div class="h-100 mh-100" *ngIf="events[0] != null; else elseBlock">
+    <div class="col d-none d-md-block h-100 mh-100">
+        <div class="list-group">
+            <div *ngFor="let event of events; let i = index">
+                <a *ngIf="!event.allDay;else elseTitle" href="#" class="list-group-item list-group-item-action" (click)="select(i)" id="{{i}}">{{ event.title }} at {{event.start}}</a>
+                <ng-template #elseTitle > <a href="#" class="list-group-item list-group-item-action" (click)="select(i)" id="{{i}}">{{ event.title }} all Day</a> </ng-template>
+            </div>
+        </div>
+        <button type="button" class="btn btn-neon-add" data-bs-toggle="modal" data-bs-target="#createEventModal">
+            add Rdv
+        </button>
+    </div>
+    <div class="dropdown col d-md-none" *ngIf="events[0] != null; else elseBlock">
+        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            Dropdown link
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            <li><a class="dropdown-item" href="#"></a></li>
+            <li><a *ngFor="let event of events; let i = index" href="#" class="dropdown-item" (click)="select(i)" id="{{i}}">{{ event.title }}</a></li>  
+        </ul>
+        <button type="button" class="btn btn-neon-add" data-bs-toggle="modal" data-bs-target="#createEventModal">
+            add Rdv
+        </button>
+    </div>
+</div>
+<ng-template #elseBlock >
+    <div class="col d-none d-md-block h-100 mh-100">
+        <div class="list-group">
+            <a href="#" class="list-group-item list-group-item-action" id="0">Nothing Found</a>
+        </div>
+        <button type="button" class="btn btn-neon-add" data-bs-toggle="modal" data-bs-target="#createEventModal">
+            add Rdv
+        </button>
+    </div>
+    <div class="dropdown col d-md-none">
+        <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            Dropdown link
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+            <li><a class="dropdown-item" href="#"></a></li>
+            <li><a class="list-group-item list-group-item-action">Nothing Found</a></li>  
+        </ul>
+        <button type="button" class="btn btn-neon-add" data-bs-toggle="modal" data-bs-target="#createEventModal">
+            add Rdv
+        </button>
+    </div>
+</ng-template>
+
+<!-- Modal -->
+<div class="modal" id="createEventModal" tabindex="-1" role="dialog" aria-labelledby="createEventModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Ajouter un événement</h5>
+          <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                <div *ngIf="title.invalid"> Titre trop court. </div>
+                <div *ngIf="!dateValid"> Date non valide.</div>
+                <div class="form-group">
+                    <label for="titleTextInput">Titre de l'event</label>
+                    <input type="text" class="form-control" id="titleTextInput" formControlName="title" >
+                </div>
+                <div class="form-group">
+                    <label for="exampleFormControlTextarea1">Description</label>
+                    <textarea formControlName="description" class="form-control" id="descTextArea" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="lieuTextInput">Lieu</label>
+                    <input type="text" class="form-control" id="lieuTextInput" formControlName="location" >
+                </div>
+                <div class="form-check">
+                    <input formControlName="allDay" class="form-check-input" type="checkbox" id="allDayCheck" >
+                    <label class="form-check-label" for="allDayCheck">
+                      All Day?
+                    </label>
+                </div>
+                <div>
+                    <label for="start">Début le:</label>
+                    <input type="datetime-local" id="startDate" name="startDate" formControlName="start">
+                </div>
+                <div>
+                    <label for="end">Fin le:</label>
+                    <input type="datetime-local" id="endDate" name="endDate" formControlName="end">
+                </div>
+                <button type="submit">Submit Event</button>
+            </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
