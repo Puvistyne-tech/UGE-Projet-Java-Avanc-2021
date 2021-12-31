@@ -14,7 +14,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MainComponent } from './main/main.component';
 import { HeaderComponent } from './header/header.component';
 import { CalendrierComponent } from './main/calendrier/calendrier.component';
-import { FooterComponent } from './footer/footer.component';
 import { DetailsComponent } from './main/details/details.component';
 import { ListRdvComponent } from './main/details/list-rdv/list-rdv.component';
 import { FicheRdvComponent } from './main/details/fiche-rdv/fiche-rdv.component';
@@ -31,7 +30,6 @@ FullCalendarModule.registerPlugins([
     MainComponent,
     HeaderComponent,
     CalendrierComponent,
-    FooterComponent,
     DetailsComponent,
     ListRdvComponent,
     FicheRdvComponent

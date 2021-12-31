@@ -2,6 +2,8 @@ import { Component, Input, OnInit , Output, EventEmitter} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import { ApiCallService,Events } from 'src/app/api-call.service';
 
+declare var $:any;
+
 @Component({
   selector: 'app-list-rdv',
   templateUrl: './list-rdv.component.html',
@@ -14,7 +16,7 @@ export class ListRdvComponent implements OnInit {
   @Output() clickForDetails = new EventEmitter();
 
   sendToParent(evt:Events){
-    
+
     this.clickForDetails.emit(evt);
   }
 
@@ -64,12 +66,19 @@ export class ListRdvComponent implements OnInit {
     this.dateValid = this.validate(evt);
     if(this.dateValid){
       this.apiService.postEvent(evt).subscribe(reponse => {
-        if(reponse.status == 200){
+        if(reponse.status == 201){
           this.apiService.sendClickEvent();
+          this.hideModal();
         }
-        
       })
     }
   }
 
+  showModal(){
+    $("#createEventModal").modal("show");
+  }
+
+  hideModal(){
+    $("#createEventModal").modal("hide");
+  }
 }

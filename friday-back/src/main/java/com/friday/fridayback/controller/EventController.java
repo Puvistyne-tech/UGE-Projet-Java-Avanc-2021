@@ -52,7 +52,7 @@ public class EventController {
 
     @GetMapping(path = "/findByDate")
     @ResponseBody
-    public ResponseEntity<Object> getEventByDate(@RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+    public ResponseEntity<List<Event>> getEventByDate(@RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
         try{
             List<Event> list = eventRepository.findEventByStartDate(date.atStartOfDay(),date.plusDays(1).atStartOfDay());
             if(list.isEmpty()){

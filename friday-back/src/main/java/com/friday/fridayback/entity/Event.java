@@ -24,10 +24,10 @@ public class Event {
     @Column(name = "title", nullable = false)
     private String title;
 
-    @Column(name = "description")
+    @Column(name = "description", nullable = false)
     private String description;
 
-    @Column(name = "location")
+    @Column(name = "location", nullable = false)
     private String location;
 
     @Column(name = "start", nullable = false)
@@ -39,21 +39,14 @@ public class Event {
     @Column(name = "allDay")
     private boolean allDay;
 
-
-/*
-    public Event(String name, String description, String location, LocalDateTime startDate, LocalDateTime endDate) {
-        this.name = Objects.requireNonNull(name);
-        this.description = Objects.requireNonNull(description);
-        this.location = Objects.requireNonNull(location);
-        this.startDate = Objects.requireNonNull(startDate);
-        this.endDate = Objects.requireNonNull(endDate);
-    }*/
-
     public String getTitle() {
         return title;
     }
 
     public void setTitle(String title) {
+        if(title.isEmpty()){
+            throw new IllegalArgumentException();
+        }
         this.title = Objects.requireNonNull(title);
     }
 
@@ -62,6 +55,9 @@ public class Event {
     }
 
     public void setLocation(String location) {
+        if(location.isEmpty()){
+            throw new IllegalArgumentException();
+        }
         this.location = Objects.requireNonNull(location);
     }
 
@@ -70,6 +66,9 @@ public class Event {
     }
 
     public void setDescription(String description) {
+        if(description.isEmpty()){
+            throw new IllegalArgumentException();
+        }
         this.description = Objects.requireNonNull(description);
     }
 
@@ -97,9 +96,7 @@ public class Event {
         this.id = id;
     }
 
-    public boolean getAllDay() {
-        return allDay;
-    }
+    public boolean getAllDay() {return allDay;}
 
     public void setAllDay(boolean allDay) {
         this.allDay = allDay;

@@ -4,7 +4,7 @@ import { ApiCallService, Events } from 'src/app/api-call.service';
 import { FullCalendarComponent, CalendarOptions} from '@fullcalendar/angular';
 import { Subscription } from 'rxjs';
 
-//declare var $:any;
+declare var $:any;
 
 @Component({
   selector: 'app-calendrier',
@@ -37,6 +37,8 @@ export class CalendrierComponent implements OnInit {
   Events: Array<Events> = [];
   EventsCalendar: Array<Events> = [];
   dateClick:string ="";
+  file: File = File.prototype;
+  url: string="";
 
   calendarOptions: CalendarOptions = {
     timeZone: 'UTC',
@@ -49,6 +51,18 @@ export class CalendrierComponent implements OnInit {
       }
     },
     customButtons :{
+      uploadIcsFile: {
+        text: 'upload Ics File',
+        click: function() {
+          $("#uploadIcsFileModal").modal('show');
+        }
+      },
+      uploadIcsUrl: {
+        text: 'upload Ics Url',
+        click: function() {
+          $("#uploadIcsUrlModal").modal('show');
+        }
+      },
     },
     locale: 'fr',
     headerToolbar: {
@@ -57,16 +71,19 @@ export class CalendrierComponent implements OnInit {
       end: 'today'
     },
     footerToolbar: {
-      start: '',
+      start: 'uploadIcsFile,uploadIcsUrl',
       center: '',
       end: 'prev,next'
     },
-    eventClick: function (info) {
+    eventClick: (info)=>{
       info.jsEvent.preventDefault();
-      console.log(info);
+      let year = info.event.start!.getFullYear();
+      let month = info.event.start!.getMonth() + 1 > 10? info.event.start!.getMonth() + 1: "0"+ (info.event.start!.getMonth()+1); // les mois sont de 00 a 11 et 1 digit si < 10... pas bien!
+      let day = info.event.start!.getUTCDate()> 10? info.event.start?.getUTCDate(): "0"+info.event.start?.getUTCDate(); //1 digit si < 10... pas bien!
+      this.dateCallback(year + "-" + month + "-" + day);
     },
     dateClick: (info) => {
-      this.dateCallback(info)
+      this.dateCallback(info.dateStr)
     },
     showNonCurrentDates: false,
     themeSystem: 'bootstrap',
@@ -74,7 +91,7 @@ export class CalendrierComponent implements OnInit {
   }
 
   dateCallback(info: any) {
-    this.dateClick = info.dateStr;
+    this.dateClick = info;
     this.loadEventsByDate();
   }
 
@@ -102,5 +119,29 @@ export class CalendrierComponent implements OnInit {
         this.sendToParent();
       }
     });
+  }
+
+  handleFileInput(event: any) {
+    this.file = event.target.files[0];
+  }
+
+  onSubmitFile(){
+    this.apiService.postIcs(this.file).subscribe(response=>{
+      if(response.status == 200){
+        this.loadAllEvents();
+        this.loadEventsByDate();
+        $("#uploadIcsFileModal").modal('hide');
+      }
+    })
+  }
+
+  onSubmitUrl(){
+    this.apiService.postIcsUrl(this.url).subscribe(response=>{
+      if(response.status == 200){
+        this.loadAllEvents();
+        this.loadEventsByDate();
+        $("#uploadIcsUrlModal").modal('hide');
+      }
+    })
   }
 }

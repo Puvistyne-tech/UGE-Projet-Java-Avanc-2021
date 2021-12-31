@@ -31,8 +31,7 @@ export class FicheRdvComponent implements OnInit {
   }
 
   delete(){
-    this.apiService.delEvent(this.events.id!).subscribe(response =>{
-      console.log(response);
+    this.apiService.delEvent(this.events.id!).subscribe(() =>{
       this.apiService.sendClickEvent();
     });
   }
@@ -61,8 +60,7 @@ export class FicheRdvComponent implements OnInit {
     this.dateValid = this.validate(evt);
     console.log(evt);
     if(this.dateValid){
-      this.apiService.putEvent(evt).subscribe(date => {
-        console.log(date);
+      this.apiService.putEvent(evt).subscribe(() => {
         this.apiService.sendClickEvent();
       })
     }

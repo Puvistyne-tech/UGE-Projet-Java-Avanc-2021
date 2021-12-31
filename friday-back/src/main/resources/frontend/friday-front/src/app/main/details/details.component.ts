@@ -17,6 +17,6 @@ export class DetailsComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  clickForDetails($event:any) {this.event = $event;console.log($event)}
+  clickForDetails($event:any) {this.event = $event;}
 
 }
