@@ -16,5 +16,4 @@ public interface EventRepository
     @Query("select d from Event d where d.start >= ?1 and d.start < ?2")
     List<Event> findEventByStartDate(LocalDateTime startDate, LocalDateTime endDate);
 
-    Optional<Event> findByTitle(String title);
 }
